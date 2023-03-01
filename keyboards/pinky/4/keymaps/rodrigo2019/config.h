@@ -20,10 +20,21 @@
 
 /* Select hand configuration */
 
-//#define MASTER_LEFT
+// #define MASTER_LEFT
 // #define MASTER_RIGHT
 #define EE_HANDS
 
-#define QUICK_TAP_TERM 0
+#define TAPPING_FORCE_HOLD
+// default tapping term of 200 feels off
+// #define TAPPING_TERM 200
+// Using DYNAMIC_TAPPING_TERM_ENABLE to fix the timing
 #define TAPPING_TERM 200
+
+// See https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#ignore-mod-tap-interrupt
+// #define IGNORE_MOD_TAP_INTERRUPT
+// See get_hold_on_other_key_press(...) in keymap.c
+// #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+
+
+// See https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#retro-tapping
 #define RETRO_TAPPPING
