@@ -95,8 +95,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //  diacritics on left side: Circumflex,Grave,Two overdots/Diaeresis,Acute,Tilde, (lower row: Cedilla); right side mirrored
     [L_COMMANDS] = LAYOUT(
         _______, X(DCIR),       X(DGRV),       X(DIAE),       X(ACUT), X(DTIL), _______,      _______, _______,       _______,       _______,       _______, _______, _______,
-        _______, KC_LGUI, OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT), KC_TAB, _______,       _______,  KC_TAB, OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), _______, _______,
-        _______, KC_APP,  OSM(MOD_RALT),       KC_MRWD,       KC_MFFD, X(CDEL), _______,      _______, _______,       KC_VOLD,       KC_VOLU, OSM(MOD_RALT), _______, _______,
+        _______, KC_LGUI, OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_TAB, _______,       _______,  KC_TAB, OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), KC_LGUI, _______,
+        _______, KC_APP,  OSM(MOD_RALT),       KC_MRWD,       KC_MFFD, X(CDEL), _______,      _______, _______,       KC_VOLD,       KC_VOLU, OSM(MOD_RALT), KC_APP, _______,
                                               // _______, KC_DELETE, KC_BSPC, KC_DELETE,      _______, _______, _______, _______ // handles Enter+Esc and Enter+E
                                            _______, DF(L_MOTION), KC_BSPC, DF(L_MOTION),      _______, _______, _______, _______ // handles Enter+Esc and Enter+E
     ),
