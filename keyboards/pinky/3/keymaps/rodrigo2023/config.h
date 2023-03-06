@@ -24,12 +24,51 @@
 // #define MASTER_RIGHT
 #define EE_HANDS
 
+// The keyboard is linux only, because it was easiest way to get things going
+// (If this becomes a problem, migth have to convert to use BEPO keyboard keys as plan B)
+#define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
+
+
+// keymap.c uses 2 combos
+// #define COMBO_COUNT 2
+// IMPORTANT: if combo count is incorrect, the keyboard will missbehave.
+// #define COMBO_COUNT 0
+#define COMBO_COUNT 1
+
+
+// We use tap hold for mods in main layer,
+// we use there them only for "slow tiping" we have an extra layers
+// for fast commands.
 #define TAPPING_TERM 200
-//#define RETRO_TAPPPING
-// Let us try the Ferris approach 
+
+// Space/Shift key is handled much faster than all other keys
+#define TAPPING_TERM_PER_KEY
+
+
+// retro tapping: pressing and releasing a taphold key super slow, 
+// always triggers the underlying key.
+// See https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#retro-tapping
+#define RETRO_TAPPPING
+
+// we keep QUICK_TAP_TERM to default TAPPING_TERM to enable repeating of held keys
+// (important for HJKL keys)
+// See https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#retro-tapping
+
+// We use permissive hold to make it easy to have long tapping_term,
+// and to long hold keys like SHIFT or CTRL while we type the combo
+// See https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#permissive-hold
 #define PERMISSIVE_HOLD
+
+// Ignore mod tap interrupt is key to handling well long presses for the tap-hold keys,
+// it makes permissive_hold apply to mod keys too.
+// See https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#ignore-mod-tap-interrupt
 #define IGNORE_MOD_TAP_INTERRUPT
-#define QUICK_TAP_TERM 0
+
+
+// Let us try the Ferris approach 
+// #define PERMISSIVE_HOLD
+// #define IGNORE_MOD_TAP_INTERRUPT
+//#define QUICK_TAP_TERM 0
 
 // manna-harbour_miryoku/config.h
 // #define TAPPING_TERM 200
