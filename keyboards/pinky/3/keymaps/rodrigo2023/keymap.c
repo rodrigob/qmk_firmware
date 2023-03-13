@@ -95,10 +95,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //  diacritics on left side: Circumflex,Grave,Two overdots/Diaeresis,Acute,Tilde, (lower row: Cedilla); right side mirrored
     [L_COMMANDS] = LAYOUT(
 		    // UTF8 will draw the symbols but will not generate the dead diacritics as desired.
-        //_______, X(DCIR),       X(DGRV),       X(DIAE),       X(ACUT), X(DTIL), _______,      _______, _______,       _______,       _______,       _______, _______, _______,
-        _______, BP_DCIR,       BP_DGRV,       BP_DIAE,       BP_ACUT, BP_DTIL, _______,      _______, _______,       _______,       _______,       _______, _______, _______,
-        _______, KC_LGUI, OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_TAB, _______,       _______,  KC_TAB, OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), KC_LGUI, _______,
-        _______, KC_APP,  OSM(MOD_RALT),       KC_MRWD,       KC_MFFD, BP_CEDL, _______,      _______, _______,       KC_VOLD,       KC_VOLU, OSM(MOD_RALT), KC_APP, _______,
+      //_______, X(DCIR),       X(DGRV),       X(DIAE),       X(ACUT), X(DTIL), _______,      _______, _______,       _______,       _______,       _______, _______, _______,
+        _______, BP_DCIR,       BP_DGRV,       BP_DIAE,       BP_ACUT, BP_DTIL, _______,      _______, BP_DTIL,       BP_ACUT,       BP_DIAE,       BP_DGRV, BP_DCIR, _______,
+        _______, KC_LGUI, OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_TAB, _______,      _______,  KC_TAB, OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), KC_LGUI, _______,
+        _______, KC_APP,  OSM(MOD_RALT),       BP_CEDL,       _______, _______, _______,      _______, _______,       KC_VOLD,       KC_VOLU, OSM(MOD_RALT), KC_APP, _______,
                                               // _______, KC_DELETE, KC_BSPC, KC_DELETE,      _______, _______, _______, _______ // handles Enter+Esc and Enter+E
                                            _______, DF(L_MOTION), KC_BSPC, DF(L_MOTION),      _______, _______, _______, _______ // handles Enter+Esc and Enter+E
     ),
@@ -111,9 +111,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_NUMFN] = LAYOUT(
-        _______, KC_F1,    KC_F2,       KC_F3,    KC_F4,   KC_F5, _______,    _______,        KC_F6,   KC_F7,       KC_F8,   KC_F9, KC_F10, _______,
-        _______,  BP_1,     BP_2, CTL_T(BP_3),     BP_4,    BP_5, _______,    _______,         BP_6,    BP_7, CTL_T(BP_8),    BP_9,   BP_0, _______,
-        _______, KC_F11, _______,      BP_DOT,  BP_COMM, _______, _______,    _______,      KC_LEFT, KC_DOWN,       KC_UP, KC_RGHT, KC_F12, _______,
+        _______, KC_F1,    KC_F2,         KC_F3,    KC_F4,   KC_F5, _______,    _______,        KC_F6,   KC_F7,       KC_F8,   KC_F9, KC_F10, _______,
+      //_______,  BP_1,     BP_2,   CTL_T(BP_3),     BP_4,    BP_5, _______,    _______,         BP_6,    BP_7, CTL_T(BP_8),    BP_9,   BP_0, _______,
+      //_______, KC_F11, _______,        BP_DOT,  BP_COMM, _______, _______,    _______,      KC_LEFT, KC_DOWN,       KC_UP, KC_RGHT, KC_F12, _______,
+        _______, KC_F11, _______, CTL_T(BP_DOT),  BP_COMM, _______, _______,    _______,      KC_LEFT, KC_DOWN,       KC_UP, KC_RGHT, KC_F12, _______,
+        _______,  BP_1,     BP_2,          BP_3,     BP_4,    BP_5, _______,    _______,         BP_6,    BP_7,        BP_8,    BP_9,   BP_0, _______,
                                     //_______,  _______, _______, _______,    _______,    KC_DELETE, _______, KC_DELETE // handles Esc+Enter
                                       _______,  _______, _______, _______,    _______, DF(L_MOTION), _______, DF(L_MOTION) // handles Esc+Enter
     ),
@@ -163,7 +165,10 @@ const key_override_t
 	shift_dot_override = ko_make_basic(MOD_MASK_SHIFT, BP_DOT, BP_COLN), // shift+. becomes :
 	shift_lalt_dot_override = ko_make_basic(MOD_MASK_SHIFT, ALGR_T(BP_DOT), BP_COLN), // shift+. becomes : too
 	shift_mins_override = ko_make_basic(MOD_MASK_SHIFT, BP_MINS, BP_UNDS), // shift+-, becomes _
-	shift_mmns_override = ko_make_basic(MOD_MASK_SHIFT, BP_MMNS, BP_UNDS); // shift+-, becomes _ too
+	shift_mmns_override = ko_make_basic(MOD_MASK_SHIFT, BP_MMNS, BP_UNDS), // shift+-, becomes _ too
+	// Shift volume up/down = move forward/backwards 
+	shift_vold_override = ko_make_basic(MOD_MASK_SHIFT, KC_VOLD, KC_MRWD), // shift+volume down becomes rewind media
+	shift_volu_override = ko_make_basic(MOD_MASK_SHIFT, KC_VOLU, KC_MFFD); // shift+volume up becomes forward media
 
 
 // This globally defines all key overrides to be used
@@ -181,6 +186,8 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 	&shift_lalt_dot_override,
 	&shift_mins_override,
 	&shift_mmns_override,
+	&shift_vold_override,
+	&shift_volu_override,
 	NULL // Null terminate the array of overrides!
 };
 
@@ -192,11 +199,13 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 const uint16_t PROGMEM combo_e_enter[] = {BP_E, KC_ENTER, COMBO_END};
 const uint16_t PROGMEM combo_esc_enter[] = {KC_ESC, KC_ENTER, COMBO_END};
 const uint16_t PROGMEM combo_rwd_ffd[] = {KC_MRWD, KC_MFFD, COMBO_END};
+const uint16_t PROGMEM combo_vold_volu[] = {KC_VOLD, KC_VOLU, COMBO_END};
 combo_t key_combos[COMBO_COUNT] = {
 // backspace/delete combos not needed, since available in the alpha layer.
     //COMBO(combo_e_enter, KC_BACKSPACE),
     //COMBO(combo_esc_enter, KC_DELETE), 
     COMBO(combo_rwd_ffd, KC_MPLY),  // Rewind+Foward=Play
+    COMBO(combo_vold_volu, KC_MPLY),  // Volume Up+Down=Play
 };
 
 
