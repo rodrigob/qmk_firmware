@@ -24,17 +24,34 @@
 // #define MASTER_RIGHT
 #define EE_HANDS
 
+
+// ??
 #define TAPPING_FORCE_HOLD
+
 // default tapping term of 200 feels off
 // #define TAPPING_TERM 200
 // Using DYNAMIC_TAPPING_TERM_ENABLE to fix the timing
-#define TAPPING_TERM 200
-
-// See https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#ignore-mod-tap-interrupt
-// #define IGNORE_MOD_TAP_INTERRUPT
-// See get_hold_on_other_key_press(...) in keymap.c
-// #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+#define TAPPING_TERM 150
 
 
+// retro tapping: pressing and releasing a taphold key super slow, 
+// always triggers the underlying key.
 // See https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#retro-tapping
 #define RETRO_TAPPPING
+
+// we keep QUICK_TAP_TERM to default TAPPING_TERM to enable repeating of held keys
+// (important for HJKL keys)
+// See https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#retro-tapping
+
+// We use permissive hold to make it easy to have long tapping_term,
+// and to long hold keys like SHIFT or CTRL while we type the combo
+// See https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#permissive-hold
+#define PERMISSIVE_HOLD
+
+// Ignore mod tap interrupt is key to handling well long presses for the tap-hold keys,
+// it makes permissive_hold apply to mod keys too.
+// See https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#ignore-mod-tap-interrupt
+#define IGNORE_MOD_TAP_INTERRUPT
+
+
+
