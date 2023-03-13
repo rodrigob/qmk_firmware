@@ -33,7 +33,7 @@
 // #define COMBO_COUNT 2
 // IMPORTANT: if combo count is incorrect, the keyboard will missbehave.
 // #define COMBO_COUNT 0
-#define COMBO_COUNT 1
+#define COMBO_COUNT 2
 
 
 // We use tap hold for mods in main layer,

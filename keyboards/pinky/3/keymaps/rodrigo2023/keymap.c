@@ -14,7 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
-
+// We use BEPO keymap instead of US or US Intl so as to be able to
+// represent all desired accents (plus clin d'oeil to my origins)
+#include "keymap_bepo.h"
 
 // Accents short names from quantum/keymap_extras/keymap_bepo.h
 enum unicode_names {
@@ -83,35 +85,35 @@ enum layer_names {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_ALPHA] = LAYOUT(
-	KC_GRV, KC_Q,          KC_W,        KC_E,        KC_R, KC_T, KC_LBRC,          KC_RBRC,   KC_Y,        KC_U,        KC_I,        KC_O,     KC_P, KC_BSPC,
-     // KC_ESC, KC_A,   ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G, KC_LPRN,          KC_RPRN,   KC_H, SFT_T(KC_J), CTL_T(KC_K), ALT_T(KC_L),  KC_SCLN,  KC_ENT,
-        KC_ESC, KC_A,   ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G, KC_LPRN,          KC_RPRN,   KC_H, SFT_T(KC_J), CTL_T(KC_K), ALT_T(KC_L),  KC_ENT,  KC_ENT,
-     // KC_LSFT, KC_Z, ALGR_T(KC_X),        KC_C,        KC_V, KC_B, MO(L_LOWER) ,       MO(L_RAISE), KC_N,        KC_M, KC_COMMA, ALGR_T(KC_DOT),  KC_SLSH, KC_QUOT,
-        KC_LSFT, KC_Z, ALGR_T(KC_X),        KC_C,        KC_V, KC_B, MO(L_LOWER) ,      MO(L_RAISE), KC_N,        KC_M, KC_COMMA, ALGR_T(KC_DOT), KC_MINUS, KC_QUOT,
+	BP_GRV, BP_Q,          BP_W,        BP_E,        BP_R, BP_T, BP_LBRC,               BP_RBRC, BP_Y,        BP_U,        BP_I,        BP_O,   BP_P, KC_BSPC,
+        KC_ESC, BP_A,   ALT_T(BP_S), CTL_T(BP_D), SFT_T(BP_F), BP_G, BP_LPRN,               BP_RPRN, BP_H, SFT_T(BP_J), CTL_T(BP_K), ALT_T(BP_L), KC_ENT,  KC_ENT,
+        KC_LSFT, BP_Z, ALGR_T(BP_X),        BP_C,        BP_V, BP_B, MO(L_LOWER),       MO(L_RAISE), BP_N,        BP_M,  BP_COMM, ALGR_T(BP_DOT), BP_MMNS, BP_QUOT,
 
-             _______, LT(L_NUMFN, KC_ESC), LT(L_SYMBOLS, KC_E), LT(L_NUMFN, KC_ESC),       LT(L_COMMANDS, KC_BSPC), SFT_T(KC_SPC), LT(L_COMMANDS, KC_BSPC), _______
+          _______, LT(L_NUMFN, KC_ESC), LT(L_SYMBOLS, BP_E), LT(L_NUMFN, KC_ESC),       LT(L_COMMANDS, KC_BSPC), SFT_T(KC_SPC), LT(L_COMMANDS, KC_BSPC), _______
     ),
     
     //  diacritics on left side: Circumflex,Grave,Two overdots/Diaeresis,Acute,Tilde, (lower row: Cedilla); right side mirrored
     [L_COMMANDS] = LAYOUT(
-        _______, X(DCIR),       X(DGRV),       X(DIAE),       X(ACUT), X(DTIL), _______,      _______, _______,       _______,       _______,       _______, _______, _______,
+		    // UTF8 will draw the symbols but will not generate the dead diacritics as desired.
+        //_______, X(DCIR),       X(DGRV),       X(DIAE),       X(ACUT), X(DTIL), _______,      _______, _______,       _______,       _______,       _______, _______, _______,
+        _______, BP_DCIR,       BP_DGRV,       BP_DIAE,       BP_ACUT, BP_DTIL, _______,      _______, _______,       _______,       _______,       _______, _______, _______,
         _______, KC_LGUI, OSM(MOD_LALT), OSM(MOD_LCTL), OSM(MOD_LSFT),  KC_TAB, _______,       _______,  KC_TAB, OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), KC_LGUI, _______,
-        _______, KC_APP,  OSM(MOD_RALT),       KC_MRWD,       KC_MFFD, X(CDEL), _______,      _______, _______,       KC_VOLD,       KC_VOLU, OSM(MOD_RALT), KC_APP, _______,
+        _______, KC_APP,  OSM(MOD_RALT),       KC_MRWD,       KC_MFFD, BP_CEDL, _______,      _______, _______,       KC_VOLD,       KC_VOLU, OSM(MOD_RALT), KC_APP, _______,
                                               // _______, KC_DELETE, KC_BSPC, KC_DELETE,      _______, _______, _______, _______ // handles Enter+Esc and Enter+E
                                            _______, DF(L_MOTION), KC_BSPC, DF(L_MOTION),      _______, _______, _______, _______ // handles Enter+Esc and Enter+E
     ),
 
     [L_SYMBOLS] = LAYOUT(
-        _______, KC_CIRCUMFLEX,  KC_PERC,  KC_ASTR, KC_PLUS,   KC_EXLM, _______,       _______, KC_QUES, KC_MINUS, KC_SLASH, KC_EQUAL,   KC_AT, _______,
-        _______,         KC_LT,    KC_GT,  KC_LCBR, KC_RCBR,   KC_AMPR, _______,       _______, KC_PIPE,  KC_LPRN,  KC_RPRN,  KC_LBRC, KC_RBRC, _______,
-        _______,  KC_BACKSLASH, KC_TILDE, KC_SLASH, KC_UNDS, KC_DOLLAR, _______,       _______,  KC_TAB,   KC_DQT, KC_QUOTE, KC_GRAVE, KC_HASH, _______,
-                                             _______, _______, _______, _______,       KC_BSPC, _______,  KC_BSPC, _______  // handles E+Enter
+        _______, BP_CIRC, BP_PERC, BP_ASTR, BP_PLUS,   BP_EXLM, _______,       _______, BP_QUES, BP_MMNS, BP_SLSH,  BP_EQL,   BP_AT, _______,
+        _______, BP_LABK, BP_RABK, BP_LCBR, BP_RCBR,   BP_AMPR, _______,       _______, BP_PIPE, BP_LPRN, BP_RPRN, BP_LBRC, BP_RBRC, _______,
+        _______, BP_BSLS, BP_TILD, BP_SLSH, BP_UNDS,    BP_DLR, _______,       _______,  KC_TAB, BP_DQUO, BP_QUOT,  BP_GRV, BP_HASH, _______,
+                                     _______, _______, _______, _______,       KC_BSPC, _______,  KC_BSPC, _______  // handles E+Enter),
     ),
 
     [L_NUMFN] = LAYOUT(
         _______, KC_F1,    KC_F2,       KC_F3,    KC_F4,   KC_F5, _______,    _______,        KC_F6,   KC_F7,       KC_F8,   KC_F9, KC_F10, _______,
-        _______,  KC_1,     KC_2, CTL_T(KC_3),     KC_4,    KC_5, _______,    _______,         KC_6,    KC_7, CTL_T(KC_8),    KC_9,   KC_0, _______,
-        _______, KC_F11, _______,      KC_DOT, KC_COMMA, _______, _______,    _______,      KC_LEFT, KC_DOWN,       KC_UP, KC_RGHT, KC_F12, _______,
+        _______,  BP_1,     BP_2, CTL_T(BP_3),     BP_4,    BP_5, _______,    _______,         BP_6,    BP_7, CTL_T(BP_8),    BP_9,   BP_0, _______,
+        _______, KC_F11, _______,      BP_DOT,  BP_COMM, _______, _______,    _______,      KC_LEFT, KC_DOWN,       KC_UP, KC_RGHT, KC_F12, _______,
                                     //_______,  _______, _______, _______,    _______,    KC_DELETE, _______, KC_DELETE // handles Esc+Enter
                                       _______,  _______, _______, _______,    _______, DF(L_MOTION), _______, DF(L_MOTION) // handles Esc+Enter
     ),
@@ -139,8 +141,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_RAISE] = LAYOUT(
-        KC_GRV , KC_1   , KC_2   , KC_3   , KC_4   , KC_5   , _______,    _______, KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_BSLS,
-        _______, _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, KC_MINS, KC_EQL , _______,
+        BP_GRV , BP_1   , BP_2   , BP_3   , BP_4   , BP_5   , _______,    _______, BP_6   , BP_7   , BP_8   , BP_9   , BP_0   , BP_BSLS,
+        _______, _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, BP_MINS, BP_EQL , _______,
         _______, _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______, _______,
                                    _______, _______, _______, _______,    _______, _______, _______, _______
     ),
@@ -149,15 +151,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const key_override_t 
 	shift_bspc_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL), // shift+backspace becomes delete
 	shift_lbspc_override = ko_make_basic(MOD_MASK_SHIFT, LT(L_COMMANDS, KC_BSPC), KC_DEL), // shift+layer backspace becomes delete
-	shift_lprn_override = ko_make_basic(MOD_MASK_SHIFT, KC_LPRN, KC_LABK), // shift+( becomes <
-	shift_rprn_override = ko_make_basic(MOD_MASK_SHIFT, KC_RPRN, KC_RABK), // shift+) becomes >
-	shift_exml_override = ko_make_basic(MOD_MASK_SHIFT, KC_EXLM, X(IEXLM)), // shift+! becomes ¡
-	shift_ques_override = ko_make_basic(MOD_MASK_SHIFT, KC_QUES, X(IQUES)), // shift+? becomes ¿
-	shift_dollar_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOLLAR, X(EURO)), // shift+$ becomes €
+	//shift_lprn_override = ko_make_basic(MOD_MASK_SHIFT, BP_LPRN, BP_LABK), // shift+( becomes <
+	shift_lprn_override = ko_make_basic(MOD_MASK_SHIFT, BP_LPRN, KC_LT), // shift+( becomes <
+	//shift_rprn_override = ko_make_basic(MOD_MASK_SHIFT, BP_RPRN, BP_RABK), // shift+) becomes >
+	shift_rprn_override = ko_make_basic(MOD_MASK_SHIFT, BP_RPRN, KC_GT), // shift+) becomes >
+	shift_exml_override = ko_make_basic(MOD_MASK_SHIFT, BP_EXLM, BP_IEXL), // shift+! becomes ¡
+	shift_ques_override = ko_make_basic(MOD_MASK_SHIFT, BP_QUES, BP_IQUE), // shift+? becomes ¿
+	shift_dollar_override = ko_make_basic(MOD_MASK_SHIFT, BP_DLR, X(EURO)), // shift+$ becomes €
         // mimic swiss qwertz
-	shift_comma_override = ko_make_basic(MOD_MASK_SHIFT, KC_COMMA, KC_SEMICOLON), // shift+, becomes ;
-	shift_dot_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_COLON), // shift+. becomes :
-	shift_lalt_dot_override = ko_make_basic(MOD_MASK_SHIFT, ALGR_T(KC_DOT), KC_COLON); // shift+. becomes : too
+	shift_comma_override = ko_make_basic(MOD_MASK_SHIFT, BP_COMM, BP_SCLN), // shift+, becomes ;
+	shift_dot_override = ko_make_basic(MOD_MASK_SHIFT, BP_DOT, BP_COLN), // shift+. becomes :
+	shift_lalt_dot_override = ko_make_basic(MOD_MASK_SHIFT, ALGR_T(BP_DOT), BP_COLN), // shift+. becomes : too
+	shift_mins_override = ko_make_basic(MOD_MASK_SHIFT, BP_MINS, BP_UNDS), // shift+-, becomes _
+	shift_mmns_override = ko_make_basic(MOD_MASK_SHIFT, BP_MMNS, BP_UNDS); // shift+-, becomes _ too
+
 
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
@@ -172,6 +179,8 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 	&shift_comma_override,
 	&shift_dot_override,
 	&shift_lalt_dot_override,
+	&shift_mins_override,
+	&shift_mmns_override,
 	NULL // Null terminate the array of overrides!
 };
 
@@ -180,7 +189,7 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 // in practice Backspace and Delete are best accessed via E+something,
 // thus best implemented via the layers
 
-const uint16_t PROGMEM combo_e_enter[] = {KC_E, KC_ENTER, COMBO_END};
+const uint16_t PROGMEM combo_e_enter[] = {BP_E, KC_ENTER, COMBO_END};
 const uint16_t PROGMEM combo_esc_enter[] = {KC_ESC, KC_ENTER, COMBO_END};
 const uint16_t PROGMEM combo_rwd_ffd[] = {KC_MRWD, KC_MFFD, COMBO_END};
 combo_t key_combos[COMBO_COUNT] = {
