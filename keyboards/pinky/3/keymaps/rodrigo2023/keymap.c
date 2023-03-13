@@ -85,11 +85,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_ALPHA] = LAYOUT(
 	KC_GRV, KC_Q,          KC_W,        KC_E,        KC_R, KC_T, KC_LBRC,          KC_RBRC,   KC_Y,        KC_U,        KC_I,        KC_O,     KC_P, KC_BSPC,
      // KC_ESC, KC_A,   ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G, KC_LPRN,          KC_RPRN,   KC_H, SFT_T(KC_J), CTL_T(KC_K), ALT_T(KC_L),  KC_SCLN,  KC_ENT,
-        KC_ESC, KC_A,   ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G, KC_LPRN,          KC_RPRN,   KC_H, SFT_T(KC_J), CTL_T(KC_K), ALT_T(KC_L),  KC_BSPC,  KC_ENT,
+        KC_ESC, KC_A,   ALT_T(KC_S), CTL_T(KC_D), SFT_T(KC_F), KC_G, KC_LPRN,          KC_RPRN,   KC_H, SFT_T(KC_J), CTL_T(KC_K), ALT_T(KC_L),  KC_ENT,  KC_ENT,
      // KC_LSFT, KC_Z, ALGR_T(KC_X),        KC_C,        KC_V, KC_B, MO(L_LOWER) ,       MO(L_RAISE), KC_N,        KC_M, KC_COMMA, ALGR_T(KC_DOT),  KC_SLSH, KC_QUOT,
         KC_LSFT, KC_Z, ALGR_T(KC_X),        KC_C,        KC_V, KC_B, MO(L_LOWER) ,      MO(L_RAISE), KC_N,        KC_M, KC_COMMA, ALGR_T(KC_DOT), KC_MINUS, KC_QUOT,
 
-             _______, LT(L_NUMFN, KC_ESC), LT(L_SYMBOLS, KC_E), LT(L_NUMFN, KC_ESC),       LT(L_COMMANDS, KC_ENT), SFT_T(KC_SPC), LT(L_COMMANDS, KC_ENT), _______
+             _______, LT(L_NUMFN, KC_ESC), LT(L_SYMBOLS, KC_E), LT(L_NUMFN, KC_ESC),       LT(L_COMMANDS, KC_BSPC), SFT_T(KC_SPC), LT(L_COMMANDS, KC_BSPC), _______
     ),
     
     //  diacritics on left side: Circumflex,Grave,Two overdots/Diaeresis,Acute,Tilde, (lower row: Cedilla); right side mirrored
@@ -109,11 +109,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_NUMFN] = LAYOUT(
-        _______, KC_F1,    KC_F2,    KC_F3,    KC_F4,   KC_F5, _______,    _______,   KC_F6,   KC_F7, KC_F8,   KC_F9, KC_F10, _______,
-        _______,  KC_1,     KC_2,     KC_3,     KC_4,    KC_5, _______,    _______,    KC_6,    KC_7,  KC_8,    KC_9,   KC_0, _______,
-        _______, KC_F11, _______,   KC_DOT, KC_COMMA, _______, _______,    _______, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_F12, _______,
-                                   //_______,  _______, _______, _______,    _______, KC_DELETE, _______, KC_DELETE // handles Esc+Enter
-                                   _______,  _______, _______, _______,    _______, DF(L_MOTION), _______, DF(L_MOTION) // handles Esc+Enter
+        _______, KC_F1,    KC_F2,       KC_F3,    KC_F4,   KC_F5, _______,    _______,        KC_F6,   KC_F7,       KC_F8,   KC_F9, KC_F10, _______,
+        _______,  KC_1,     KC_2, CTL_T(KC_3),     KC_4,    KC_5, _______,    _______,         KC_6,    KC_7, CTL_T(KC_8),    KC_9,   KC_0, _______,
+        _______, KC_F11, _______,      KC_DOT, KC_COMMA, _______, _______,    _______,      KC_LEFT, KC_DOWN,       KC_UP, KC_RGHT, KC_F12, _______,
+                                    //_______,  _______, _______, _______,    _______,    KC_DELETE, _______, KC_DELETE // handles Esc+Enter
+                                      _______,  _______, _______, _______,    _______, DF(L_MOTION), _______, DF(L_MOTION) // handles Esc+Enter
     ),
 
     [L_MOTION] = LAYOUT(
@@ -148,6 +148,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 const key_override_t 
 	shift_bspc_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL), // shift+backspace becomes delete
+	shift_lbspc_override = ko_make_basic(MOD_MASK_SHIFT, LT(L_COMMANDS, KC_BSPC), KC_DEL), // shift+layer backspace becomes delete
 	shift_lprn_override = ko_make_basic(MOD_MASK_SHIFT, KC_LPRN, KC_LABK), // shift+( becomes <
 	shift_rprn_override = ko_make_basic(MOD_MASK_SHIFT, KC_RPRN, KC_RABK), // shift+) becomes >
 	shift_exml_override = ko_make_basic(MOD_MASK_SHIFT, KC_EXLM, X(IEXLM)), // shift+! becomes ¡
@@ -161,6 +162,7 @@ const key_override_t
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
 	&shift_bspc_override,
+	&shift_lbspc_override,
 	&shift_lprn_override,
 	&shift_rprn_override,
 	&shift_exml_override,
