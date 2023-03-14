@@ -87,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_ALPHA] = LAYOUT(
 	BP_GRV, BP_Q,          BP_W,        BP_E,        BP_R, BP_T, BP_LBRC,               BP_RBRC, BP_Y,        BP_U,        BP_I,        BP_O,   BP_P, KC_BSPC,
         KC_ESC, BP_A,   ALT_T(BP_S), CTL_T(BP_D), SFT_T(BP_F), BP_G, BP_LPRN,               BP_RPRN, BP_H, SFT_T(BP_J), CTL_T(BP_K), ALT_T(BP_L), KC_ENT,  KC_ENT,
-        KC_LSFT, BP_Z, ALGR_T(BP_X),        BP_C,        BP_V, BP_B, MO(L_LOWER),       MO(L_RAISE), BP_N,        BP_M,  BP_COMM, ALGR_T(BP_DOT), BP_MMNS, BP_QUOT,
+        KC_LSFT, BP_Z, ALGR_T(BP_X),        BP_C,        BP_V, BP_B, MO(L_LOWER),       MO(L_RAISE), BP_N,        BP_M,  BP_COMM, ALGR_T(BP_DOT), BP_MINS, BP_QUOT,
 
           _______, LT(L_NUMFN, KC_ESC), LT(L_SYMBOLS, BP_E), LT(L_NUMFN, KC_ESC),       LT(L_COMMANDS, KC_BSPC), SFT_T(KC_SPC), LT(L_COMMANDS, KC_BSPC), _______
     ),
@@ -104,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_SYMBOLS] = LAYOUT(
-        _______, BP_CIRC, BP_PERC, BP_ASTR, BP_PLUS,   BP_EXLM, _______,       _______, BP_QUES, BP_MMNS, BP_SLSH,  BP_EQL,   BP_AT, _______,
+        _______, BP_CIRC, BP_PERC, BP_ASTR, BP_PLUS,   BP_EXLM, _______,       _______, BP_QUES, BP_MINS, BP_SLSH,  BP_EQL,   BP_AT, _______,
         _______, BP_LABK, BP_RABK, BP_LCBR, BP_RCBR,   BP_AMPR, _______,       _______, BP_PIPE, BP_LPRN, BP_RPRN, BP_LBRC, BP_RBRC, _______,
         _______, BP_BSLS, BP_TILD, BP_SLSH, BP_UNDS,    BP_DLR, _______,       _______,  KC_TAB, BP_DQUO, BP_QUOT,  BP_GRV, BP_HASH, _______,
                                      _______, _______, _______, _______,       KC_BSPC, _______,  KC_BSPC, _______  // handles E+Enter),
