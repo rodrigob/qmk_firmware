@@ -17,6 +17,9 @@
 // We use BEPO keymap instead of US or US Intl so as to be able to
 // represent all desired accents (plus clin d'oeil to my origins)
 #include "keymap_bepo.h"
+#include "sendstring_bepo.h"
+
+// TODO(low priority): switch to keymap_swiss_de.h to reduce switching layouts with main work machine
 
 // Accents short names from quantum/keymap_extras/keymap_bepo.h
 enum unicode_names {
@@ -59,6 +62,7 @@ const uint32_t unicode_map[] PROGMEM = {
 
 
 enum layer_names {
+    L_AL, // Alpha
     L_ALPHA,
     L_COMMANDS,
     L_SYMBOLS,
@@ -66,24 +70,42 @@ enum layer_names {
     L_MOTION,
     L_LOWER,
     L_RAISE,
-    L_EMPTY
+    L_EMPTY,
+    // v2 layers
+    L_DI, // Diacritics
+    L_SA, // Symbols A
+    L_SB, // Symbols B
+    L_NU, // Numbers
+    L_FN,
+    L_MO, // Motion
 };
 
-/*enum custom_keycodes {
-    ALPHA = SAFE_RANGE,
-    COMMANDS,
-    SYMBOLS,
-    NUMFN,
-    MOTION,
-    LOWER,
-    RAISE,
-    EMPTY
-};*/
+enum custom_keycodes {
+    NTILDE = SAFE_RANGE, // n tilde is not part of bepo, we thus use a macro that sends tilde+n
+};
 
-#define CTL_TAB CTL_T(KC_TAB)
+#define NEXT_TAB C(KC_TAB)
+#define PREV_TAB S(C(KC_TAB))
+#define NEXT_WIN A(KC_TAB)
+#define PREV_WIN S(A(KC_TAB))
+#define SHOW_WINS G(KC_F5)
+#define CTL_C C(BP_C)
+#define CTL_V C(BP_V)
+#define LT_DI(K) LT(L_DI, K)
+#define LT_SA(K) LT(L_SA, K)
+#define LT_SB(K) LT(L_SB, K)
+#define LT_NU(K) LT(L_NU, K)
+#define LT_FN(K) LT(L_FN, K)
+#define LT_MO(K) LT(L_MO, K)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
+    [L_AL] = LAYOUT(
+	BP_GRV,  BP_Q,        LT_NU(BP_W),  LT_SB(BP_E), LT_SA(BP_R), BP_T,        BP_LBRC,           BP_RBRC,     BP_Y,        LT_SA(BP_U), LT_SB(BP_I), LT_NU(BP_O),    BP_P,          KC_BSPC,
+        KC_ESC,  LT_FN(BP_A), ALT_T(BP_S),  CTL_T(BP_D), SFT_T(BP_F), LT_DI(BP_G), BP_LPRN,           BP_RPRN,     LT_DI(BP_H), SFT_T(BP_J), CTL_T(BP_K), ALT_T(BP_L),    LT_FN(KC_ENT), KC_ENT,
+        KC_LSFT, BP_Z,        ALGR_T(BP_X), BP_C,        LT_MO(BP_V), BP_B,        MO(L_LOWER),       MO(L_RAISE), BP_N,        LT_MO(BP_M), BP_COMM,     ALGR_T(BP_DOT), BP_MINS,       BP_QUOT,
+          _______, LT(L_NUMFN, KC_ESC), LT(L_SYMBOLS, BP_E), LT(L_NUMFN, KC_ESC),       LT(L_COMMANDS, KC_BSPC), SFT_T(KC_SPC), LT(L_COMMANDS, KC_BSPC), _______
+    ),
     [L_ALPHA] = LAYOUT(
 	BP_GRV, BP_Q,          BP_W,        BP_E,        BP_R, BP_T, BP_LBRC,               BP_RBRC, BP_Y,        BP_U,        BP_I,        BP_O,   BP_P, KC_BSPC,
         KC_ESC, BP_A,   ALT_T(BP_S), CTL_T(BP_D), SFT_T(BP_F), BP_G, BP_LPRN,               BP_RPRN, BP_H, SFT_T(BP_J), CTL_T(BP_K), ALT_T(BP_L), KC_ENT,  KC_ENT,
@@ -91,7 +113,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
           _______, LT(L_NUMFN, KC_ESC), LT(L_SYMBOLS, BP_E), LT(L_NUMFN, KC_ESC),       LT(L_COMMANDS, KC_BSPC), SFT_T(KC_SPC), LT(L_COMMANDS, KC_BSPC), _______
     ),
-    
+
+     [L_NU] = LAYOUT(
+       _______,    KC_PPLS, KC_P7, KC_P8, KC_P9, KC_PEQL,  _______,       _______, KC_PEQL,  KC_P7, KC_P8, KC_P9, KC_PPLS, _______,
+       _______,    KC_P0,   KC_P4, KC_P5, KC_P6, KC_PDOT, _______,       _______,  KC_PDOT, KC_P4, KC_P5, KC_P6, KC_P0,   _______,
+       _______,    KC_PMNS, KC_P1, KC_P2, KC_P3, BP_COMM, _______,       _______,  BP_COMM, KC_P1, KC_P2, KC_P3, KC_PMNS, _______,
+                               _______, _______, _______, _______,       _______, _______, _______, _______ 
+    ),
+
+  
     //  diacritics on left side: Circumflex,Grave,Two overdots/Diaeresis,Acute,Tilde, (lower row: Cedilla); right side mirrored
     [L_COMMANDS] = LAYOUT(
 		    // UTF8 will draw the symbols but will not generate the dead diacritics as desired.
@@ -103,11 +133,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            _______, DF(L_MOTION), KC_BSPC, DF(L_MOTION),      _______, _______, _______, _______ // handles Enter+Esc and Enter+E
     ),
 
+    [L_DI] = LAYOUT(
+        _______, BP_DCIR, BP_DGRV, BP_DIAE, BP_ACUT, BP_DTIL, _______,      _______, BP_DTIL,  BP_ACUT, BP_DIAE, BP_DGRV, BP_DCIR, _______,
+        _______, KC_LGUI, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,      _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_LGUI, _______,
+        _______, KC_APP,  BP_CEDL, BP_CCED, NTILDE,  BP_DTIL, _______,      _______, BP_DTIL, NTILDE,  BP_CCED, BP_CEDL, KC_APP,  _______,
+                                           _______, _______, _______, _______,      _______, _______, _______, _______ 
+    ),
+
     [L_SYMBOLS] = LAYOUT(
         _______, BP_CIRC, BP_PERC, BP_ASTR, BP_PLUS,   BP_EXLM, _______,       _______, BP_QUES, BP_MINS, BP_SLSH,  BP_EQL,   BP_AT, _______,
         _______, BP_LABK, BP_RABK, BP_LCBR, BP_RCBR,   BP_AMPR, _______,       _______, BP_PIPE, BP_LPRN, BP_RPRN, BP_LBRC, BP_RBRC, _______,
         _______, BP_BSLS, BP_TILD, BP_SLSH, BP_UNDS,    BP_DLR, _______,       _______,  KC_TAB, BP_DQUO, BP_QUOT,  BP_GRV, BP_HASH, _______,
                                      _______, _______, _______, _______,       KC_BSPC, _______,  KC_BSPC, _______  // handles E+Enter),
+    ),
+
+    [L_SA] = LAYOUT(
+        _______, BP_RABK, BP_RCBR, BP_RBRC, BP_RPRN, BP_EXLM, _______,       _______, BP_EXLM, BP_RPRN, BP_RBRC, BP_RCBR, BP_RABK, _______,
+        _______, BP_LABK, BP_LCBR, BP_LBRC, BP_LPRN, BP_QUES, _______,       _______, BP_QUES, BP_LPRN, BP_LBRC, BP_LCBR, BP_LABK, _______,
+        _______, BP_BSLS, BP_TILD, BP_SLSH, BP_UNDS, BP_DLR,  _______,       _______,  BP_DLR, BP_UNDS, BP_SLSH, BP_TILD, BP_BSLS, _______,
+                                   _______, _______, _______, _______,      _______, _______, _______, _______ 
+   ),
+
+    [L_SB] = LAYOUT(
+        _______, BP_PERC, BP_AT,   BP_PIPE, BP_AMPR, BP_CIRC, _______,       _______, BP_CIRC, BP_AMPR, BP_PIPE, BP_AT,   BP_PERC, _______,
+        _______, BP_SLSH, BP_ASTR, BP_MINS, BP_PLUS, BP_EQL,  _______,       _______, BP_EQL,  BP_PLUS, BP_MINS, BP_ASTR, BP_SLSH, _______,
+        _______, BP_HASH, BP_GRV,  BP_QUOT, BP_DQUO, KC_TAB,  _______,       _______, KC_TAB,  BP_DQUO, BP_QUOT, BP_GRV,  BP_HASH, _______,
+                                     _______, _______, _______, _______,      _______, _______, _______, _______ 
     ),
 
     [L_NUMFN] = LAYOUT(
@@ -120,11 +171,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       _______,  _______, _______, _______,    _______, DF(L_MOTION), _______, DF(L_MOTION) // handles Esc+Enter
     ),
 
+    [L_FN] = LAYOUT(
+        _______, KC_F1, KC_F2,  KC_F3,  KC_F4,  KC_MPLY, _______,    _______, KC_MPLY, KC_F1, KC_F2,  KC_F3,  KC_F4,  _______,
+        _______, KC_F5, KC_F6,  KC_F7,  KC_F8,  KC_VOLU, _______,    _______, KC_VOLU, KC_F5, KC_F6,  KC_F7,  KC_F8,  _______,
+        _______, KC_F9, KC_F10, KC_F11, KC_F12, KC_VOLD, _______,    _______, KC_VOLD, KC_F9, KC_F10, KC_F11, KC_F12, _______,          
+                              _______, _______, _______, _______,    _______, _______, _______, _______
+    ),
+
     [L_MOTION] = LAYOUT(
        _______,    KC_PPLS,  KC_P7, KC_P8, KC_P9, KC_PMNS, _______,       _______,  KC_MRWD, KC_VOLD, KC_VOLU, KC_MFFD, KC_MPLY, _______,
        _______,    KC_PDOT,  KC_P4, KC_P5, KC_P6,   KC_P0, _______,       _______,  KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, _______, _______,
        _______,    KC_PSLS,  KC_P1, KC_P2, KC_P3, KC_PAST, _______,       _______,  KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______, _______,
                          _______, DF(L_ALPHA), _______, DF(L_ALPHA),       _______, _______, _______, _______
+    ),
+
+    [L_MO] = LAYOUT( 
+       _______, SHOW_WINS, PREV_WIN, PREV_TAB, NEXT_TAB, NEXT_WIN, _______,      _______, PREV_WIN, PREV_TAB, NEXT_TAB, NEXT_WIN, SHOW_WINS, _______,
+       _______, CTL_C,     KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  _______,      _______, KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  CTL_C,     _______,
+       _______, CTL_V,     KC_HOME,  KC_PGDN,  KC_PGUP,  KC_END,   _______,      _______, KC_HOME,  KC_PGDN,  KC_PGUP,  KC_END,   CTL_V,     _______,
+                                        _______, _______, _______, _______,      _______, _______, _______, _______
     ),
 
     [L_EMPTY] = LAYOUT(
@@ -230,6 +295,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     switch (keycode) {
+	    case NTILDE:
+		    if(record->event.pressed) {
+			    // BP_DTILD then BP_N
+			    // SEND_STRING(SS_TAP(X_DTILD)SS_TAP(X_N));
+			     // BP_DTIL == ALGR(BP_N)
+			      SEND_STRING(SS_ALGR(SS_TAP(X_N)) SS_TAP(X_N));
+		    }
+		    break;
+
         /* case LOWER:
             if (record->event.pressed) {
                 layer_on(_LOWER);
