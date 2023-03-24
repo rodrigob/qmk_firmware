@@ -101,9 +101,9 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_AL] = LAYOUT(
-	BP_GRV,  BP_Q,        LT_NU(BP_W),  LT_SA(BP_E), LT_SB(BP_R), BP_T,        BP_LBRC,           BP_RBRC,     BP_Y,        LT_SB(BP_U), LT_SA(BP_I), LT_NU(BP_O),    BP_P,          KC_BSPC,
-        KC_ESC,  LT_FN(BP_A), ALT_T(BP_S),  CTL_T(BP_D), SFT_T(BP_F), LT_DI(BP_G), BP_LPRN,           BP_RPRN,     LT_DI(BP_H), SFT_T(BP_J), CTL_T(BP_K), ALT_T(BP_L),    LT_FN(KC_ENT), KC_ENT,
-        KC_LSFT, BP_Z,        ALGR_T(BP_X), BP_C,        LT_MO(BP_V), BP_B,        MO(L_LOWER),       MO(L_RAISE), BP_N,        LT_MO(BP_M), BP_COMM,     ALGR_T(BP_DOT), BP_MINS,       BP_QUOT,
+	BP_GRV,  BP_Q,        LT_NU(BP_W),  LT_SA(BP_E), LT_SB(BP_R),  BP_T,        BP_LBRC,           BP_RBRC,     BP_Y,        LT_SB(BP_U), LT_SA(BP_I), LT_NU(BP_O),    BP_P,          KC_BSPC,
+        KC_ESC,  LT_FN(BP_A), ALT_T(BP_S),  CTL_T(BP_D), SLT_DI(BP_F), FT_T(BP_G),  BP_LPRN,           BP_RPRN,     SFT_T(BP_H), LT_DI(BP_J),  CTL_T(BP_K), ALT_T(BP_L),    LT_FN(KC_ENT), KC_ENT,
+        KC_LSFT, BP_Z,        ALGR_T(BP_X), BP_C,        LT_MO(BP_V),  BP_B,        MO(L_LOWER),       MO(L_RAISE), BP_N,        LT_MO(BP_M), BP_COMM,     ALGR_T(BP_DOT), BP_MINS,       BP_QUOT,
           _______, LT(L_NUMFN, KC_TAB), LT(L_SYMBOLS, KC_ESC), LT(L_NUMFN, KC_TAB),       LT(L_COMMANDS, KC_BSPC), SFT_T(KC_SPC), LT(L_COMMANDS, KC_BSPC), _______
     ),
     [L_ALPHA] = LAYOUT(
