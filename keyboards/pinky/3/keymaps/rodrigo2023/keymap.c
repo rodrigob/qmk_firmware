@@ -101,10 +101,10 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_AL] = LAYOUT(
-	BP_GRV,  BP_Q,        LT_NU(BP_W),  LT_SB(BP_E), LT_SA(BP_R), BP_T,        BP_LBRC,           BP_RBRC,     BP_Y,        LT_SA(BP_U), LT_SB(BP_I), LT_NU(BP_O),    BP_P,          KC_BSPC,
+	BP_GRV,  BP_Q,        LT_NU(BP_W),  LT_SA(BP_E), LT_SB(BP_R), BP_T,        BP_LBRC,           BP_RBRC,     BP_Y,        LT_SB(BP_U), LT_SA(BP_I), LT_NU(BP_O),    BP_P,          KC_BSPC,
         KC_ESC,  LT_FN(BP_A), ALT_T(BP_S),  CTL_T(BP_D), SFT_T(BP_F), LT_DI(BP_G), BP_LPRN,           BP_RPRN,     LT_DI(BP_H), SFT_T(BP_J), CTL_T(BP_K), ALT_T(BP_L),    LT_FN(KC_ENT), KC_ENT,
         KC_LSFT, BP_Z,        ALGR_T(BP_X), BP_C,        LT_MO(BP_V), BP_B,        MO(L_LOWER),       MO(L_RAISE), BP_N,        LT_MO(BP_M), BP_COMM,     ALGR_T(BP_DOT), BP_MINS,       BP_QUOT,
-          _______, LT(L_NUMFN, KC_ESC), LT(L_SYMBOLS, BP_E), LT(L_NUMFN, KC_ESC),       LT(L_COMMANDS, KC_BSPC), SFT_T(KC_SPC), LT(L_COMMANDS, KC_BSPC), _______
+          _______, LT(L_NUMFN, KC_TAB), LT(L_SYMBOLS, KC_ESC), LT(L_NUMFN, KC_TAB),       LT(L_COMMANDS, KC_BSPC), SFT_T(KC_SPC), LT(L_COMMANDS, KC_BSPC), _______
     ),
     [L_ALPHA] = LAYOUT(
 	BP_GRV, BP_Q,          BP_W,        BP_E,        BP_R, BP_T, BP_LBRC,               BP_RBRC, BP_Y,        BP_U,        BP_I,        BP_O,   BP_P, KC_BSPC,
@@ -136,8 +136,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_DI] = LAYOUT(
         _______, BP_DCIR, BP_DGRV, BP_DIAE, BP_ACUT, BP_DTIL, _______,      _______, BP_DTIL,  BP_ACUT, BP_DIAE, BP_DGRV, BP_DCIR, _______,
         _______, KC_LGUI, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,      _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_LGUI, _______,
-        _______, KC_APP,  BP_CEDL, BP_CCED, NTILDE,  BP_DTIL, _______,      _______, BP_DTIL, NTILDE,  BP_CCED, BP_CEDL, KC_APP,  _______,
-                                           _______, _______, _______, _______,      _______, _______, _______, _______ 
+        _______, KC_APP,  BP_CEDL, BP_CCED, NTILDE,  KC_TAB,  _______,      _______, KC_TAB,  NTILDE,  BP_CCED, BP_CEDL, KC_APP,  _______,
+                                   _______, _______, _______, _______,      _______, _______, _______, _______ 
     ),
 
     [L_SYMBOLS] = LAYOUT(
@@ -297,10 +297,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
 	    case NTILDE:
 		    if(record->event.pressed) {
-			    // BP_DTILD then BP_N
-			    // SEND_STRING(SS_TAP(X_DTILD)SS_TAP(X_N));
-			     // BP_DTIL == ALGR(BP_N)
-			      SEND_STRING(SS_ALGR(SS_TAP(X_N)) SS_TAP(X_N));
+		      // BP_DTILD then BP_N, BP_DTIL == ALGR(BP_N)
+		      SEND_STRING(SS_ALGR("n") "n");
 		    }
 		    break;
 
