@@ -148,8 +148,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_SA] = LAYOUT(
-        _______, BP_RABK, BP_RCBR, BP_RBRC, BP_RPRN, BP_EXLM, _______,       _______, BP_EXLM, BP_RPRN, BP_RBRC, BP_RCBR, BP_RABK, _______,
-        _______, BP_LABK, BP_LCBR, BP_LBRC, BP_LPRN, BP_QUES, _______,       _______, BP_QUES, BP_LPRN, BP_LBRC, BP_LCBR, BP_LABK, _______,
+        _______, BP_RABK, BP_RCBR, BP_RPRN, BP_RBRC, BP_EXLM, _______,       _______, BP_EXLM, BP_RBRC, BP_RPRN, BP_RCBR, BP_RABK, _______,
+        _______, BP_LABK, BP_LCBR, BP_LPRN, BP_LBRC, BP_QUES, _______,       _______, BP_QUES, BP_LBRC, BP_LPRN, BP_LCBR, BP_LABK, _______,
         _______, BP_BSLS, BP_TILD, BP_SLSH, BP_UNDS, BP_DLR,  _______,       _______,  BP_DLR, BP_UNDS, BP_SLSH, BP_TILD, BP_BSLS, _______,
                                    _______, _______, _______, _______,      _______, _______, _______, _______ 
    ),
