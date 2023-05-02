@@ -89,6 +89,7 @@ enum custom_keycodes {
     K_NTILDE = SAFE_RANGE, // n tilde is not part of bepo, we thus use a macro that sends tilde+n
     K_IEXLM, // inverted exclamation mark is not part of swiss_de, we use a macro
     K_IQUES, // inverted question mark is not part of swiss_de, we use a macro
+    K_ESZ, // ß Eszett
 };
 
 #define NEXT_TAB C(KC_TAB)
@@ -142,8 +143,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_DI] = LAYOUT(
         _______, CH_CIRC, CH_GRV, CH_DIAE, CH_ACUT, CH_TILD, _______,      _______, CH_TILD,  CH_ACUT, CH_DIAE, CH_GRV, CH_CIRC, _______,
         _______, KC_LGUI, KC_LEFT, KC_DOWN,    KC_UP,   KC_RGHT, _______,      _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_LGUI, _______,
-        _______, KC_APP,  _______, CH_CCED, K_NTILDE,  KC_TAB,  _______,      _______, KC_TAB,  K_NTILDE,  CH_CCED, _______, KC_APP,  _______,
-                                   _______, _______, _______, _______,      _______, _______, _______, _______ 
+        _______, KC_APP,  K_ESZ, CH_CCED, K_NTILDE,  KC_TAB,  _______,      _______, KC_TAB,  K_NTILDE,  CH_CCED, K_ESZ, KC_APP,  _______,
+                                   _______, _______, KC_SPC, _______,      _______, _______, _______, _______ 
     ),
 
     [L_SYMBOLS] = LAYOUT(
@@ -151,13 +152,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, CH_LABK, CH_RABK, CH_LCBR, CH_RCBR,   CH_AMPR, _______,       _______, CH_PIPE, CH_LPRN, CH_RPRN, CH_LBRC, CH_RBRC, _______,
         _______, CH_BSLS, CH_TILD, CH_SLSH, CH_UNDS,    CH_DLR, _______,       _______,  KC_TAB, CH_DQUO, CH_QUOT,  CH_GRV, CH_HASH, _______,
                                      _______, _______, _______, _______,       KC_BSPC, _______,  KC_BSPC, _______  // handles E+Enter),
-    ),
+  ),
 
     [L_SA] = LAYOUT(
 	// Exception to rule of symmetric left and right hands
         _______, CH_RABK, CH_RCBR, CH_RPRN, CH_RBRC, CH_EXLM, _______,       _______, X(IEXLM), CH_RBRC, CH_RPRN, CH_RCBR, CH_RABK, _______,
         _______, CH_LABK, CH_LCBR, CH_LPRN, CH_LBRC, CH_QUES, _______,       _______, X(IQUES), CH_LBRC, CH_LPRN, CH_LCBR, CH_LABK, _______,
-        _______, CH_BSLS, CH_TILD, CH_SLSH, CH_UNDS, CH_DLR,  _______,       _______,  CH_DLR, CH_UNDS, CH_SLSH, CH_TILD, CH_BSLS, _______,
+        _______, CH_BSLS,  CH_TILD, CH_SLSH, CH_UNDS, CH_DLR,  _______,       _______,  CH_DLR, CH_UNDS, CH_SLSH, CH_TILD, CH_BSLS, _______,
                                    _______, _______, _______, _______,      _______, _______, _______, _______ 
    ),
 
@@ -326,6 +327,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 		      send_unicode_string("¿");
 		    // [IQUES] = 0x00BF, // ¿
 		    }
+		    break;
+	    case K_ESZ:
+		    // ß Eszett
+		    SEND_STRING(SS_ALGR(X_S));
 		    break;
 
         /* case LOWER:
