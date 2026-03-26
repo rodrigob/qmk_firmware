@@ -57,7 +57,8 @@
 // We use permissive hold to make it easy to have long tapping_term,
 // and to long hold keys like SHIFT or CTRL while we type the combo
 // See https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#permissive-hold
-#define PERMISSIVE_HOLD
+// This is usually recommended, but for now trying without it. 
+// #define PERMISSIVE_HOLD
 
 // Ignore mod tap interrupt is key to handling well long presses for the tap-hold keys,
 // it makes permissive_hold apply to mod keys too.

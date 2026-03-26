@@ -330,7 +330,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 		    break;
 	    case K_ESZ:
 		    // ß Eszett
-		    SEND_STRING(SS_ALGR(X_S));
+		    if(record->event.pressed) {
+		      SEND_STRING(SS_ALGR("s")); // combo for ß in swiss_de
+		      // send_unicode_string("ß"); // also works
+		    }
 		    break;
 
         /* case LOWER:
